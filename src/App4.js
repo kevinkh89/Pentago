@@ -136,21 +136,6 @@ function useIsMounted() {
    return isMounted.current;
 }
 
-const dummy = [
-   [BLACK, BLACK, BLACK],
-   [null, null, null],
-   [null, null, null],
-];
-const dummy2 = [
-   [null, null, null],
-   [BLACK, null, null],
-   [BLACK, null, null],
-];
-const dummy3 = [
-   [BLACK, null, null],
-   [BLACK, null, null],
-   [BLACK, null, null],
-];
 const Board = () => {
    // console.log(window.matchMedia('(max-width:600px)').matches);
 
@@ -160,9 +145,9 @@ const Board = () => {
    // const [clickCounter, setClickCounter] = useState({ black: 0, red: 0 });
    const [winner, setWinner] = useState(false);
    // console.log(board);
-   const [quad1, setQuad1] = useState(dummy2);
+   const [quad1, setQuad1] = useState(board[0]);
    const [quad2, setQuad2] = useState(board[0]);
-   const [quad3, setQuad3] = useState(dummy3);
+   const [quad3, setQuad3] = useState(board[0]);
    const [quad4, setQuad4] = useState(board[0]);
    const mount = useIsMounted();
    useEffect(() => {

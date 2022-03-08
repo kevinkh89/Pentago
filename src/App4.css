@@ -189,7 +189,7 @@ svg {
 }
 .vertical {
    transform: rotate(90deg);
-   transform-origin: 2rem 2rem;
+   transform-origin: 3.5rem 3.5rem;
 }
 .vertical.end {
    /* top: 1.7rem; */
