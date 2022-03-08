@@ -1,20 +1,6 @@
-import React, {
-   useState,
-   useEffect,
-   useRef,
-   useCallback,
-   useMemo,
-   memo,
-   useContext,
-} from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import './App4.css';
 import curved2 from './assets/undraw_handcrafts_curved_arrow.svg';
-import {
-   SituationContext,
-   SituationProvider,
-   DispatchProvider,
-   DispatchContext,
-} from './context';
 const BLACK = 'black';
 const RED = 'red';
 const FILLING = 'FILLING';
@@ -26,14 +12,27 @@ const CLOCK = 'clock';
 //TODO: USE A COSTUM HOOK TO CHECK FOR PHASE AND CLICK STATE
 
 function WinnerHighlight({ winner }) {
-   let positionValues = ['2.3rem', '9.3rem', '16.3rem', '28rem', '35rem', '42rem'];
+   let media = window.matchMedia('(max-width:600px)');
+
+   // let positionValues = ['2.3rem', '9.3rem', '16.3rem', '28rem', '35rem', '42rem'];
+   // let positionValuesMobile = ['2.3rem', '9.3rem', '16.3rem', '28rem', '35rem', '42rem'];
+   let values = {
+      normal: ['2.3rem', '9.3rem', '16.3rem', '28rem', '35rem', '42rem'],
+      mobile: ['1.3rem', '5.3rem', '9.3rem', '16rem', '20rem', '24rem'],
+   };
    let style =
       winner.direction === 'vertical'
          ? {
-              left: positionValues[winner.index],
+              left: media.matches
+                 ? values.mobile[winner.index]
+                 : values.normal[winner.index],
            }
          : winner.direction === 'horizontal'
-         ? { top: positionValues[winner.index] }
+         ? {
+              top: media.matches
+                 ? values.mobile[winner.index]
+                 : values.normal[winner.index],
+           }
          : {};
    return (
       <span
@@ -153,16 +152,18 @@ const dummy3 = [
    [BLACK, null, null],
 ];
 const Board = () => {
+   // console.log(window.matchMedia('(max-width:600px)').matches);
+
    const board = useMemo(() => makeBoard(), [makeBoard]);
    // const memoizedboard = useMemo(()=>makeBoard(), [makeBoard]);
 
    // const [clickCounter, setClickCounter] = useState({ black: 0, red: 0 });
    const [winner, setWinner] = useState(false);
    // console.log(board);
-   const [quad1, setQuad1] = useState(board[0]);
-   const [quad2, setQuad2] = useState(board[1]);
-   const [quad3, setQuad3] = useState(board[2]);
-   const [quad4, setQuad4] = useState(board[3]);
+   const [quad1, setQuad1] = useState(dummy2);
+   const [quad2, setQuad2] = useState(board[0]);
+   const [quad3, setQuad3] = useState(dummy3);
+   const [quad4, setQuad4] = useState(board[0]);
    const mount = useIsMounted();
    useEffect(() => {
       if (mount) return;
@@ -184,18 +185,8 @@ const Board = () => {
                )}
             </h2> */}
             <button
-               style={{
-                  border: 'none',
-                  backgroundColor: 'blue',
-                  // width: '11rem',
-                  // height: '5rem',
-                  marginTop: '2rem',
-                  borderRadius: '10px',
-                  color: '#f2f2f2',
-                  fontSize: '2rem',
-                  cursor: 'pointer',
-                  padding: '2rem 4rem',
-               }}
+               className="cta"
+               // style={}
                onClick={() => {
                   setPhase(FILLING);
                   setQuad1(board[0]);
@@ -213,6 +204,7 @@ const Board = () => {
 
          <div className="board">
             {winner && <WinnerHighlight winner={winner} />}
+
             <div className="row row--1">
                <Quad
                   phase={phase}
@@ -261,8 +253,7 @@ const Board = () => {
 const Game = () => {
    return (
       <div className="game">
-         {/* <h1></h1> */}
-         <Board />1
+         <Board />
       </div>
    );
 };
@@ -322,27 +313,31 @@ function winnerCalculation(quad1, quad2, quad3, quad4) {
 }
 // todo;make all four quads flat base on rows
 function horizontalCalc(quad1, quad2, quad3, quad4) {
-   return loopOverCirclesAndReturnWinner(flatCircles(quad1, quad2, quad3, quad4));
+   return loopOverCirclesAndReturnWinner([
+      ...flatCircles(quad1, quad2),
+      ...flatCircles(quad3, quad4),
+   ]);
 }
 // convert colums to rows and check for the winner
 function verticalCalc(quad1, quad2, quad3, quad4) {
-   let quad1Rotated = rotateQuad(CLOCK, quad1);
-   let quad2Rotated = rotateQuad(CLOCK, quad2);
-   let quad3Rotated = rotateQuad(CLOCK, quad3);
-   let quad4Rotated = rotateQuad(CLOCK, quad4);
-   return horizontalCalc(quad3Rotated, quad1Rotated, quad4Rotated, quad2Rotated);
+   let quad1VerticalRows = rotateQuad(CLOCK, quad1);
+   let quad2VerticalRows = rotateQuad(CLOCK, quad2);
+   let quad3VerticalRows = rotateQuad(CLOCK, quad3);
+   let quad4VerticalRows = rotateQuad(CLOCK, quad4);
+   return loopOverCirclesAndReturnWinner([
+      ...flatCircles(quad3VerticalRows, quad1VerticalRows),
+      ...flatCircles(quad4VerticalRows, quad2VerticalRows),
+   ]);
 }
 function diagonalCalc(quad1, quad2, quad3, quad4) {
-   let quad1Diagonal = pickCrossRight(quad1);
-   let quad4Diagonal = pickCrossRight(quad4);
-   let quad2Diagonal = pickCrossleft(quad2);
-   let quad3Diagonal = pickCrossleft(quad3);
-   return horizontalCalc(
-      [quad1Diagonal],
-      [quad4Diagonal],
-      [quad3Diagonal],
-      [quad2Diagonal]
-   );
+   let quad1DiagonalRow = pickCrossRight(quad1);
+   let quad4DiagonalRow = pickCrossRight(quad4);
+   let quad2DiagonalRow = pickCrossleft(quad2);
+   let quad3DiagonalRow = pickCrossleft(quad3);
+   return loopOverCirclesAndReturnWinner([
+      [...quad1DiagonalRow, ...quad4DiagonalRow],
+      [...quad3DiagonalRow, ...quad2DiagonalRow],
+   ]);
 }
 
 function pickCrossleft(quad) {
@@ -375,21 +370,28 @@ function pickCrossRight(quad) {
    let quadDiagonal = quad.map((row, rowIndex) =>
       row.find((item, itemIndex) => itemIndex === rowIndex)
    );
+   let quadReduced = quad.reduce((acc, cur, index, arr) => {
+      let res = [acc[0]];
+      return res.concat(cur[index]);
+   });
    // console.log(quadDiagonal);
 
    return quadDiagonal;
 }
 
-function flatCircles(quad1, quad2, quad3, quad4) {
-   let flat = [];
+function flatCircles(startQuad, endQuad) {
+   // let quads=arguments
+   // let flat = [];
    // console.log(quad2);
-   for (let i = 0; i < quad1.length; i++) {
-      // console.log(quad2, i);
-      flat[i] = [...quad1[i], ...quad2[i]];
-   }
-   for (let i = 0; i < quad3.length; i++) {
-      flat[flat.length] = [...quad3[i], ...quad4[i]];
-   }
+   // for (let i = 0; i < arguments[0].length; i++) {
+   //    // console.log(quad2, i);
+   //    flat[i] = [...arguments[0][i], ...arguments[1][i]];
+   // }
+   // for (let i = 0; i < arguments[2].length; i++) {
+   //    flat[flat.length] = [...arguments[2][i], ...arguments[3][i]];
+   // }
+   // console.log(flat);
+   let flat = startQuad.map((row, index) => row.concat(endQuad[index]));
    // console.log(flat);
    return flat;
 }
