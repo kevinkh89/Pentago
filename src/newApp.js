@@ -1,12 +1,15 @@
 import React from 'react';
-import './App.css';
+import './newApp.css';
 
 function Rotate(props) {
    let clockWise = props.reverse ? 'counter' : 'clock';
    let counterClockWise = props.reverse ? 'clock' : 'counter';
-
+   let className = 'rotate__el';
+   if (!(props.transfer == null)) {
+      className += ` rotate__el--${props.transfer}`;
+   }
    return (
-      <div className="rotate__el">
+      <div className={className}>
          <button onClick={() => props.onClick(clockWise)}>&uArr;</button>
          <button onClick={() => props.onClick(counterClockWise)}>&dArr;</button>
       </div>
@@ -14,19 +17,22 @@ function Rotate(props) {
 }
 
 function Circle(props) {
-   // let className = 'circle ';
    let className = props.color ? `circle circle--${props.color}` : 'circle';
-   // console.log(props.winner);
-   //    className += props.empty ? 'empty' : 'occupied';
-   return <button className={className} onClick={props.onClick}></button>;
+   let winner = props.winner ? 'winn' : null;
+   return (
+      <button
+         className={className}
+         style={winner ? { border: '1px solid yellow' } : null}
+         onClick={props.onClick}
+      >
+         {winner}
+      </button>
+   );
 }
 
 const Moves = ({ history, jumpTo, ...props }) => {
-   // let desc=props.stepNumber
-   // let history = props.history;
    return history.map((step, i) => {
       let desc = step.key ? 'Goto move #' + step.key : 'Goto game start';
-      // console.log(desc);
       return (
          <li key={step.key} className="history">
             <button className="move" onClick={() => jumpTo(step.key)}>
@@ -41,8 +47,6 @@ const BallsDeck = props => {
    for (let i = 0; i < 9; i++) {
       deckRow[i] = i;
    }
-   // let color = props.black ? 'black' : 'red';
-   // const
    return (
       <div>
          {deckRow.map((_, i) => (
@@ -52,53 +56,92 @@ const BallsDeck = props => {
    );
 };
 
-class Board extends React.Component {
-   renderCircle(num) {
-      // console.log(this.props.color);
-      // console.log(num);
-      let winner =
-         this.props.winners.indexOf(num) > -1 ? this.props.winners : [];
-      return (
-         <Circle
-            key={num}
-            //    occupied={}
-            onClick={() => this.props.onClick(num)}
-            color={this.props.color[num]}
-            winner={winner}
-         />
-      );
+const Board = props => {
+   const boardArr = makeBoard();
+   let className = 'board';
+   if (props.rotate) {
+      className += ` board__rotate--${props.rotate}-${
+         props.board % 2 === 0 ? 'left' : 'right'
+      }`;
    }
-   render() {
-      let boardArr = makeBoard();
-
-      const board = boardArr.map((circles, row) => {
-         return (
-            <div key={row} className="board-row">
-               {circles.map((num, i) => this.renderCircle(num))}
-            </div>
-         );
-      });
-      // console.log(board);
-      let className = 'board';
-      if (this.props.rotate) {
-         className += ` board__rotate--${this.props.rotate}`;
-      }
+   const board = boardArr.map((circles, row) => {
       return (
-         <div className={className}>
-            {this.props.children}
-            {board}
+         <div key={row} className="board-row">
+            {circles.map((num, i) => {
+               const winners = props.winners;
+               const color = props.color[num];
+               let winner =
+                  winners &&
+                  color === winners.winnerPlayer &&
+                  winners.winnerNumbers.indexOf(num) > -1;
+               return (
+                  <Circle
+                     key={num}
+                     onClick={() => props.onClick(num)}
+                     color={props.color[num]}
+                     winner={winner}
+                  />
+               );
+            })}
          </div>
       );
-   }
-}
+   });
 
-// const PentagoBoard = props => {
-//    return (
-//       <div className="pentago-board">
-//          <Board />
-//       </div>
-//    );
-// };
+   return <div className={className}>{board}</div>;
+};
+
+const PentagoBoard = props => {
+   const makePentagoBoard = makeBoard({ rows: 2, cols: 2 });
+   const rotatedBoard = props.rotateInfo.board;
+   const rotation = props.rotateInfo.rotation;
+   let winnerBoards = [];
+   if (props.winners) {
+      winnerBoards = props.winners.winnerBoards;
+   }
+   const pentagoBoard = makePentagoBoard.map((row, i) => {
+      return (
+         <div key={i} className="pentago-board-row">
+            {row.map((v, i) => {
+               return (
+                  <div className="row__container" key={v}>
+                     <div
+                        className={`rotate--${v % 2 === 0 ? 'left' : 'right'}`}
+                     >
+                        <Rotate
+                           reverse={v % 2 !== 0}
+                           onClick={r => props.rotate(r, v)}
+                           transfer={
+                              rotatedBoard === v
+                                 ? v % 2 === 0
+                                    ? 'left'
+                                    : 'right'
+                                 : null
+                           }
+                        />
+                     </div>
+                     <Board
+                        board={v}
+                        onClick={num => props.onClick(num, v)}
+                        color={props.pentago[v]}
+                        winners={
+                           winnerBoards.includes(v)
+                              ? {
+                                   winnerNumbers: props.winners.winnerNumbers,
+                                   winnerPlayer: props.winners.player,
+                                }
+                              : null
+                        }
+                        rotate={rotatedBoard === v ? rotation : null}
+                     />
+                  </div>
+               );
+            })}
+         </div>
+      );
+   });
+
+   return pentagoBoard;
+};
 
 class App extends React.Component {
    constructor(props) {
@@ -129,10 +172,6 @@ class App extends React.Component {
                   },
                ],
                key: 0,
-               // deck: {
-               //    black:[Array(9).fill('black'), Array(9).fill('black')],
-               //   red: [Array(9).fill('red'), Array(9).fill('red')],
-               // },
             },
          ],
          stepNumber: 0,
@@ -140,35 +179,29 @@ class App extends React.Component {
          rotated: false,
          rotatedBoard: null,
          rotationSide: null,
-         // rotationClicked: null,
       };
    }
 
    rotate(r, board) {
-      // this.rotatedBoard = board;
-      // this.r = r;
+      console.log(r, board);
       if (this.state.rotated) {
          this.setState({
             rotatedBoard: board,
             rotationSide: r,
-            // rotated: true,
             rotationClicked: true,
          });
       }
    }
    componentDidUpdate(prevProps, prevState) {
-      if (this.state.rotatedBoard) {
+      if (!(this.state.rotatedBoard == null)) {
          this.timer = setTimeout(() => {
             this.updatePentagoAfterRotate(
                this.state.rotationSide,
                this.state.rotatedBoard
             );
-         }, 1000);
+         }, 900);
       }
    }
-   // componentWillMount() {
-   //    clearTimeout(this.timer);
-   // }
 
    updatePentagoAfterRotate(r, board) {
       // console.log(r, board);
@@ -195,41 +228,10 @@ class App extends React.Component {
             }
          });
       });
-      // let matrix=[];
-      // for(let i=0;i<3;i++){
-      //    matrix[i]=[];
-      //    matrix[i]=pentago.splice(3*i,3)
-      // }
-      // let newPentago = [];
-      // if (r === 'clock') {
-      //    newPentago = pentago[0].map((val, index) =>
-      //       pentago.map(row => row[index]).reverse()
-      //    );
-      // } else {
-      //    newPentago = pentago[0].map((val, index) =>
-      //       pentago.map(row => row[row.length - 1 - index])
-      //    );
-      // }
       let historyAdding = this.state.history.slice(
          0,
          this.state.history.length - 1
       );
-
-      console.log('hola');
-      // setTimeout(
-      //    this.setState({
-      //       history: historyAdding.concat([
-      //          {
-      //             pentago: newPentago,
-      //             deck: current.deck,
-      //             key: current.key,
-      //          },
-      //       ]),
-      //       rotated: !this.state.rotated,
-      //       rotatedBoard: board,
-      //    }),
-      //    1000
-      // );
       this.setState({
          history: historyAdding.concat([
             {
@@ -240,13 +242,11 @@ class App extends React.Component {
          ]),
          rotationClicked: false,
          rotated: false,
-         // rotated: !this.state.rotated,
          rotatedBoard: null,
       });
    }
 
    jumpTo(move) {
-      // let stepNumber = this.state.stepNumber;
       this.setState({
          stepNumber: move,
          blackIsNext: move % 2 === 0,
@@ -258,8 +258,6 @@ class App extends React.Component {
       let current = history[this.state.stepNumber];
       let pentago = current.pentago;
       let deck = current.deck.slice();
-      // let color = this.state.blackIsNext ? 'black' : 'red';
-      // let deck = current.deck[color];
       if (
          pentago[board][num] ||
          this.state.rotated ||
@@ -278,12 +276,14 @@ class App extends React.Component {
          });
       });
       let newDeck = deck.map((obj, i) => {
-         let deckNum = this.state.blackIsNext ? 0 : 1;
          let color = this.state.blackIsNext ? 'black' : 'red';
          let row1 = obj.row1.slice();
          let row2 = obj.row2.slice();
-         if (i === deckNum) {
-            if (obj.row1.indexOf(color) > -1) {
+         if (+!this.state.blackIsNext === i) {
+            if (
+               row1.indexOf(color) === row2.indexOf(color) ||
+               row1.indexOf(color) < row2.indexOf(color)
+            ) {
                row1[row1.indexOf(color)] = null;
             } else {
                row2[row2.indexOf(color)] = null;
@@ -294,22 +294,6 @@ class App extends React.Component {
             row2: row2,
          };
       });
-
-      // let newDeck = deck.map((arr, row) => {
-      //    // let deckNum = this.state.blackIsNext ? 0 : 1;
-      //    // let color = this.state.blackIsNext ? 'black' : 'red';
-      //    return arr.map((circles, i) => {
-      //       // if (i === deckNum) {
-      //          row[row.indexOf(color)] =
-      //             row.indexOf(color) > -1 ? null : row[row.indexOf(color)];
-
-      //       console.log(rowNum, row);
-      //       // console.log(deckNum, i);
-      //       // console.log(color);
-      //       return row;
-      //    });
-      // });
-
       this.setState({
          history: history.concat([
             {
@@ -320,100 +304,41 @@ class App extends React.Component {
          ]),
          stepNumber: history.length,
          blackIsNext: !this.state.blackIsNext,
-         // rotated: !this.state.rotated,
          rotated: true,
       });
    }
 
    render() {
       let history = this.state.history;
-      // console.log(history);
       let current = history[this.state.stepNumber];
-      // console.log(current);
       let pentago = current.pentago;
       const winners = calculateWinner(pentago);
-      //console.log(winner);
       let desc = winners
-         ? 'Winner is ' + current.pentago
+         ? 'Winner is ' + winners.player
+         : this.state.rotated
+         ? !this.state.blackIsNext
+            ? 'Black player should rotate a board'
+            : 'Red player should rotate a board'
          : this.state.blackIsNext
          ? 'Next player is Black'
          : 'Next player is Red';
-      console.log(this.state.rotated);
-
-      // console.log('history', history);
-      // console.log('current', current);
+      // console.log(this.state.rotated);
       return (
          <div className="pentago">
             {/* <div className="row"> */}
             <h2 className="desc">{desc}</h2>
 
             <div className="pentago-board ">
-               {/* <div className="rotate--1">
-                  <Rotate />
-               </div> */}
-               <div>
-                  <div className="pentago-board-row">
-                     <Board
-                        onClick={num => this.handleClick(num, 0)}
-                        color={pentago[0]}
-                        winners={winners ? winners : []}
-                        rotate={
-                           this.state.rotatedBoard === 0
-                              ? this.state.rotationSide
-                              : null
-                        }
-                     >
-                        <div className="rotate--1">
-                           <Rotate onClick={r => this.rotate(r, 0)} />
-                        </div>
-                     </Board>
-                     <Board
-                        onClick={num => this.handleClick(num, 1)}
-                        color={pentago[1]}
-                        winners={winners ? winners : []}
-                        rotate={
-                           this.state.rotatedBoard === 1
-                              ? this.state.rotationSide
-                              : null
-                        }
-                     >
-                        <div className="rotate--2">
-                           <Rotate reverse onClick={r => this.rotate(r, 1)} />
-                        </div>
-                     </Board>
-                  </div>
-
-                  <div className="pentago-board-row">
-                     <Board
-                        onClick={num => this.handleClick(num, 2)}
-                        color={pentago[2]}
-                        winners={winners ? winners : []}
-                        rotate={
-                           this.state.rotatedBoard === 2
-                              ? this.state.rotationSide
-                              : null
-                        }
-                     >
-                        <div className="rotate--3">
-                           <Rotate onClick={r => this.rotate(r, 2)} />
-                        </div>
-                     </Board>
-                     <Board
-                        onClick={num => this.handleClick(num, 3)}
-                        color={pentago[3]}
-                        winners={winners ? winners : []}
-                        rotate={
-                           this.state.rotatedBoard === 3
-                              ? this.state.rotationSide
-                              : null
-                        }
-                     >
-                        <div className="rotate--4">
-                           <Rotate reverse onClick={r => this.rotate(r, 3)} />
-                        </div>
-                     </Board>
-                  </div>
-               </div>
+               <PentagoBoard
+                  onClick={(num, v) => this.handleClick(num, v)}
+                  pentago={pentago}
+                  winners={winners}
+                  rotate={(r, b) => this.rotate(r, b)}
+                  rotateInfo={{
+                     rotation: this.state.rotationSide,
+                     board: this.state.rotatedBoard,
+                  }}
+               />
             </div>
             <ul className="moves">
                <Moves history={history} jumpTo={move => this.jumpTo(move)} />
@@ -474,7 +399,11 @@ function calculateWinner(pentago) {
          board1[b] === board2[b] &&
          (board1[b] === board1[a] || board1[b] === board2[c])
       ) {
-         return { winnerNumbers: rows[i], player: a, winnerBoards: [1, 2] };
+         return {
+            winnerNumbers: rows[i],
+            player: board1[b],
+            winnerBoards: [0, 1],
+         };
       }
       if (
          board3[b] &&
@@ -483,7 +412,11 @@ function calculateWinner(pentago) {
          board3[b] === board4[b] &&
          (board3[b] === board3[a] || board3[b] === board4[c])
       ) {
-         return { winnerNumbers: rows[i], player: a, winnerBoards: [3, 4] };
+         return {
+            winnerNumbers: rows[i],
+            player: board3[b],
+            winnerBoards: [2, 3],
+         };
       }
       if (
          board1[e] &&
@@ -492,7 +425,11 @@ function calculateWinner(pentago) {
          board1[e] === board3[e] &&
          (board1[e] === board1[d] || board1[e] === board3[f])
       ) {
-         return { winnerNumbers: cols[i], player: d };
+         return {
+            winnerNumbers: cols[i],
+            player: board1[e],
+            winnerBoards: [0, 2],
+         };
       }
       if (
          board2[e] &&
@@ -501,7 +438,11 @@ function calculateWinner(pentago) {
          board2[e] === board4[e] &&
          (board2[e] === board2[d] || board2[e] === board4[f])
       ) {
-         return { winnerNumbers: cols[i], player: d };
+         return {
+            winnerNumbers: cols[i],
+            player: board2[e],
+            winnerBoards: [1, 3],
+         };
       }
    }
    const [g, h, i] = cross[0];
@@ -512,7 +453,11 @@ function calculateWinner(pentago) {
       board1[h] === board4[h] &&
       (board1[h] === board1[g] || board1[h] === board4[i])
    ) {
-      return { winnerNumbers: cross[0], player: g };
+      return {
+         winnerNumbers: cross[0],
+         player: board1[h],
+         winnerBoards: [0, 3],
+      };
    }
    const [j, k, l] = cross[1];
    if (
@@ -522,22 +467,14 @@ function calculateWinner(pentago) {
       board2[k] === board3[k] &&
       (board2[k] === board2[j] || board2[k] === board3[l])
    ) {
-      return { winnerNumbers: cross[1], player: j };
+      return {
+         winnerNumbers: cross[1],
+         player: board2[k],
+         winnerBoards: [1, 2],
+      };
    }
 
    return null;
-   // for(let i=0;i<4;i++){
-   //    let board=pentago[i];
-   //    for(let j=i+1;j< 4;j++){
-   //       let versus=pentago[j];
-   //       if(i===0 && j===1 || i===2 && j===3){
-   //          for(let k=0;k<rows.length; k++){
-
-   //          }
-   //       }
-
-   //    }
-   // }
 }
 
 function makeBoard({ rows = 3, cols = 3 } = {}) {

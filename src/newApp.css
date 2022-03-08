@@ -1,0 +1,246 @@
+.pentago {
+   max-width: 110rem;
+   margin: 0 auto;
+   /* height: 100vh; */
+   /* padding: 8rem 0; */
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   position: relative;
+   padding: 1rem;
+}
+
+.pentago-board {
+   /* margin-right: 3rem; */
+   display: flex;
+   /* justify-content: center; */
+   align-items: center;
+   flex-direction: column;
+   position: relative;
+}
+
+.pentago-board-row {
+   display: flex;
+}
+.pentago-board-row:first-child {
+   margin-bottom: 2rem;
+   position: relative;
+}
+.row__container {
+   position: relative;
+}
+.row__container:first-child {
+   margin-right: 1rem;
+}
+
+.board {
+   border: 1px solid orangered;
+   padding: 1rem;
+   border-radius: 20px;
+   position: relative;
+}
+.board-row {
+   display: flex;
+}
+.board-row:not(:last-child) {
+   margin-bottom: 2rem;
+}
+.circle {
+   /* display: inline-block; */
+   cursor: pointer;
+   width: 4rem;
+   height: 4rem;
+   border: 1px solid rgba(0, 0, 0, 0.4);
+   border-radius: 50%;
+   background-color: transparent;
+}
+.circle:focus {
+   outline: none;
+}
+.circle:not(:last-child) {
+   margin-right: 2rem;
+}
+.circle--black {
+   background-color: black;
+}
+.circle--red {
+   background-color: red;
+}
+.moves {
+   list-style: none;
+   position: absolute;
+   left: 80%;
+   top: 3rem;
+   /* height: 30vh; */
+   display: flex;
+   flex-wrap: wrap;
+   width: 30rem;
+}
+.history {
+   margin-bottom: 1rem;
+   margin-right: 0.5rem;
+}
+.history:first-child {
+   flex: 0 0 100%;
+}
+
+.decks {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+.deck {
+   border: 1px solid orangered;
+   border-radius: 10px;
+   padding: 1rem 1rem;
+}
+
+.desc {
+   /* padding-right: 3rem; */
+   position: absolute;
+   top: 3rem;
+   left: 8%;
+}
+.rotate__el button {
+   cursor: pointer;
+   display: block;
+   width: 3rem;
+   height: 3rem;
+}
+
+.rotate--left {
+   position: absolute;
+   top: 8rem;
+   left: -33%;
+}
+.rotate--right {
+   position: absolute;
+   top: 8rem;
+   right: -33%;
+}
+.board__rotate--clock-left {
+   /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+   animation: clockLeft 1s ease;
+}
+.board__rotate--clock-right {
+   /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+   animation: clockRight 1s ease;
+}
+.board__rotate--counter-left {
+   animation: counterClockLeft 1s ease;
+}
+.board__rotate--counter-right {
+   animation: counterClockRight 1s ease;
+}
+
+.ml-l {
+   margin-left: 6rem;
+}
+.mb-m {
+   margin-bottom: 1rem;
+}
+.mb-s {
+   margin-bottom: 0.5rem;
+}
+
+.mr-m {
+   margin-right: 3rem;
+}
+.mt-l {
+   margin-top: 3rem;
+}
+
+@keyframes clockLeft {
+   0% {
+      transform: translateX(0) rotate(0deg);
+   }
+   33% {
+      transform: translateX(-5rem);
+   }
+   66% {
+      transform: translateX(-5rem) rotate(90deg);
+   }
+   100% {
+      transform: translateX(0) rotate(90deg);
+   }
+}
+@keyframes clockRight {
+   0% {
+      transform: translateX(0) rotate(0deg);
+   }
+   33% {
+      transform: translateX(5rem);
+   }
+   66% {
+      transform: translateX(5rem) rotate(90deg);
+   }
+   100% {
+      transform: translateX(0) rotate(90deg);
+   }
+}
+
+@keyframes counterClockLeft {
+   0% {
+      transform: translateX(0) rotate(0deg);
+   }
+   33% {
+      transform: translateX(-5rem);
+   }
+   66% {
+      transform: translateX(-5rem) rotate(-90deg);
+   }
+   100% {
+      transform: translateX(0) rotate(-90deg);
+   }
+}
+@keyframes counterClockRight {
+   0% {
+      transform: translateX(0) rotate(0deg);
+   }
+   33% {
+      transform: translateX(5rem);
+   }
+   66% {
+      transform: translateX(5rem) rotate(-90deg);
+   }
+   100% {
+      transform: translateX(0) rotate(-90deg);
+   }
+}
+
+.rotate__el--left {
+   animation: transferLeft 1s ease;
+}
+
+.rotate__el--right {
+   animation: transferRight 1s ease;
+}
+
+@keyframes transferLeft {
+   0% {
+      transform: translateX(0);
+   }
+   33% {
+      transform: translateX(-5.5rem);
+   }
+   66% {
+      transform: translateX(-5.5rem);
+   }
+   100% {
+      transform: translateX(0);
+   }
+}
+@keyframes transferRight {
+   0% {
+      transform: translateX(0);
+   }
+   33% {
+      transform: translateX(+5.5rem);
+   }
+   66% {
+      transform: translateX(+5.5rem);
+   }
+   100% {
+      transform: translateX(0);
+   }
+}

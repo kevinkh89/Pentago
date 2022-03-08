@@ -1,38 +1,172 @@
-.App {
-  text-align: center;
+.pentago {
+   max-width: 110rem;
+   margin: 0 auto;
+   /* height: 100vh; */
+   /* padding: 8rem 0; */
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   position: relative;
+   padding: 1rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.pentago-board {
+   /* margin-right: 3rem; */
+   display: flex;
+   justify-content: center;
+   position: relative;
+}
+.row {
+   display: flex;
+   justify-content: center;
+   margin-bottom: 3rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.pentago-board-row {
+   display: flex;
+}
+.pentago-board-row:first-child {
+   margin-bottom: 2rem;
+   position: relative;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.board {
+   border: 1px solid orangered;
+   padding: 1rem;
+   border-radius: 20px;
+   position: relative;
+}
+.board:first-of-type {
+   margin-right: 2rem;
+}
+.board-row {
+   display: flex;
+}
+.board-row:not(:last-child) {
+   margin-bottom: 2rem;
+}
+.circle {
+   /* display: inline-block; */
+   width: 4rem;
+   height: 4rem;
+   border: 1px solid rgba(0, 0, 0, 0.4);
+   border-radius: 50%;
+   background-color: transparent;
+}
+.circle:focus {
+   outline: none;
+}
+.circle:not(:last-child) {
+   margin-right: 2rem;
+}
+.circle--black {
+   background-color: black;
+}
+.circle--red {
+   background-color: red;
+}
+.moves {
+   list-style: none;
+   position: absolute;
+   left: 77%;
+   top: 3rem;
+   /* height: 30vh; */
+   display: flex;
+   flex-wrap: wrap;
+   width: 33rem;
+}
+.history {
+   margin-bottom: 1rem;
+   margin-right: 0.5rem;
+}
+.history:first-child {
+   flex: 0 0 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.decks {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+.deck {
+   border: 1px solid orangered;
+   border-radius: 10px;
+   padding: 1rem 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.desc {
+   /* padding-right: 3rem; */
+   position: absolute;
+   top: 3rem;
+   left: 15%;
+}
+
+.rotate--1 {
+   position: absolute;
+   top: 8rem;
+   left: -33%;
+   /* width: 10rem; */
+}
+.rotate--2 {
+   position: absolute;
+   top: 8rem;
+   right: -33%;
+}
+.rotate--3 {
+   position: absolute;
+   top: 8rem;
+   left: -33%;
+}
+.rotate--4 {
+   position: absolute;
+   top: 8rem;
+   right: -33%;
+}
+.rotate__el button {
+   display: block;
+   width: 3rem;
+   height: 3rem;
+}
+
+.board__rotate--clock {
+   /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+   animation: clock 1s ease;
+}
+.board__rotate--counter {
+   animation: counterClock 1s ease;
+}
+
+.ml-l {
+   margin-left: 6rem;
+}
+.mb-m {
+   margin-bottom: 1rem;
+}
+.mb-s {
+   margin-bottom: 0.5rem;
+}
+
+.mr-m {
+   margin-right: 3rem;
+}
+.mt-l {
+   margin-top: 3rem;
+}
+
+@keyframes clock {
+   from {
+      transform: rotate(0deg);
+   }
+   to {
+      transform: rotate(90deg);
+   }
+}
+
+@keyframes counterClock {
+   from {
+      transform: rotate(0deg);
+   }
+   to {
+      transform: rotate(-90deg);
+   }
 }
