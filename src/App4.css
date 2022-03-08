@@ -189,7 +189,7 @@ svg {
 }
 .vertical {
    transform: rotate(90deg);
-   transform-origin: 3.5rem 3.5rem;
+   transform-origin: 2rem 2rem;
 }
 .vertical.end {
    /* top: 1.7rem; */
@@ -327,6 +327,7 @@ svg {
    .game {
       flex-direction: column;
       /* width: auto; */
+      min-width: auto;
    }
    .desc {
       margin: 0 auto;
