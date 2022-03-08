@@ -45,7 +45,7 @@ html {
 }
 @media screen and (max-width: 1200px) {
    html {
-      font-size: 56.25%;
+      font-size: 55.25%;
    }
 }
 .clock-rotate-enter {
