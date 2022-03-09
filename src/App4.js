@@ -71,7 +71,7 @@ function Quad({ quad, setQuad, player, phase, disabled, setPhase, setPlayer }) {
    };
    const handleRotate = rotation => {
       if (disabled || phase === FILLING) return;
-      setQuadClass(`quad ${rotation}-rotate-enter ${rotation}-rotate-enter-active`);
+      setQuadClass(`quad ${rotation}-rotate-enter-active`);
       setRotation(rotation);
    };
    return (
