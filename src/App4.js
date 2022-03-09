@@ -8,14 +8,8 @@ const ROTATION = 'ROTATION';
 const COUNTER = 'counter';
 const CLOCK = 'clock';
 //=================
-
-//TODO: USE A COSTUM HOOK TO CHECK FOR PHASE AND CLICK STATE
-
 function WinnerHighlight({ winner }) {
    let media = window.matchMedia('(max-width:600px)');
-
-   // let positionValues = ['2.3rem', '9.3rem', '16.3rem', '28rem', '35rem', '42rem'];
-   // let positionValuesMobile = ['2.3rem', '9.3rem', '16.3rem', '28rem', '35rem', '42rem'];
    let values = {
       normal: ['2.3rem', '9.3rem', '16.3rem', '28rem', '35rem', '42rem'],
       mobile: ['1.3rem', '5.3rem', '9.3rem', '16rem', '20rem', '24rem'],
@@ -83,11 +77,13 @@ function Quad({ quad, setQuad, player, phase, disabled, setPhase, setPlayer }) {
    return (
       <div className="quad-container">
          <img
+            alt="counter rotation"
             src={curved2}
             className={`counter ${phase === FILLING ? 'fade-out' : 'fade-in'}`}
             onClick={() => handleRotate(COUNTER)}
          />
          <img
+            alt="clock rotation"
             src={curved2}
             className={`clock ${phase === FILLING ? 'fade-out' : 'fade-in'}`}
             onClick={() => handleRotate(CLOCK)}
@@ -121,13 +117,6 @@ function Quad({ quad, setQuad, player, phase, disabled, setPhase, setPlayer }) {
    );
 }
 
-//====board
-// function isEmpty(obj) {
-//    for (var x in obj) {
-//       return false;
-//    }
-//    return true;
-// }
 function useIsMounted() {
    const isMounted = useRef(true);
    useEffect(() => {
@@ -137,14 +126,8 @@ function useIsMounted() {
 }
 
 const Board = () => {
-   // console.log(window.matchMedia('(max-width:600px)').matches);
-
    const board = useMemo(() => makeBoard(), [makeBoard]);
-   // const memoizedboard = useMemo(()=>makeBoard(), [makeBoard]);
-
-   // const [clickCounter, setClickCounter] = useState({ black: 0, red: 0 });
    const [winner, setWinner] = useState(false);
-   // console.log(board);
    const [quad1, setQuad1] = useState(board[0]);
    const [quad2, setQuad2] = useState(board[0]);
    const [quad3, setQuad3] = useState(board[0]);
@@ -156,7 +139,6 @@ const Board = () => {
       if (checkWinner) {
          setWinner(checkWinner);
       }
-      // setPhase(phase => (phase === FILLING ? ROTATION : FILLING));
    }, [quad1, quad2, quad3, quad4, mount]);
    const [player, setPlayer] = useState(BLACK);
    const [phase, setPhase] = useState(FILLING);
@@ -164,14 +146,8 @@ const Board = () => {
       <>
          <div className="desc">
             <Status phase={phase} player={player} winner={winner} />
-            {/* <h2>
-               {winner && (
-                  <span style={{ color: 'gold' }}>winner is {winner.player}</span>
-               )}
-            </h2> */}
             <button
                className="cta"
-               // style={}
                onClick={() => {
                   setPhase(FILLING);
                   setQuad1(board[0]);
@@ -184,7 +160,6 @@ const Board = () => {
             >
                Reset
             </button>
-            {/* <div className="score-board"></div> */}
          </div>
 
          <div className="board">
@@ -261,7 +236,6 @@ const rotateQuad = (rotation, quad) => {
    return rotatedQuad;
 };
 function makeBoard() {
-   console.log('makeBoard');
    let board = [];
    for (let i = 0; i < 4; i++) {
       let quad = [];
@@ -330,28 +304,9 @@ function pickCrossleft(quad) {
       .slice()
       .reverse()
       .map((row, rowIndex) => row.find((item, itemIndex) => rowIndex === itemIndex));
-   // console.log(quadDiagonal);
    return quadDiagonal;
 }
 function pickCrossRight(quad) {
-   // let diag = [[], []];
-   // //let quad2Rotated = rotateQuad(COUNTER, quad2);
-   // //let quad3Rotated = rotateQuad(COUNTER, quad3);
-   // let quad2Rotated = quad2.slice().reverse();
-   // let quad3Rotated = quad3.slice().reverse();
-   // for (let j = 0; j < 3; j++) {
-   //    diag[0][j] = quad1[j][j];
-   // }
-   // for (let j = 0; j < 3; j++) {
-   //    diag[0][j + 3] = quad4[j][j];
-   // }
-   // for (let j = 0; j < 3; j++) {
-   //    diag[1][j] = quad2Rotated[j][j];
-   // }
-   // for (let j = 0; j < 3; j++) {
-   //    diag[1][j + 3] = quad3Rotated[j][j];
-   // }
-   // return diag;
    let quadDiagonal = quad.map((row, rowIndex) =>
       row.find((item, itemIndex) => itemIndex === rowIndex)
    );
@@ -359,30 +314,16 @@ function pickCrossRight(quad) {
       let res = [acc[0]];
       return res.concat(cur[index]);
    });
-   // console.log(quadDiagonal);
 
    return quadDiagonal;
 }
 
 function flatCircles(startQuad, endQuad) {
-   // let quads=arguments
-   // let flat = [];
-   // console.log(quad2);
-   // for (let i = 0; i < arguments[0].length; i++) {
-   //    // console.log(quad2, i);
-   //    flat[i] = [...arguments[0][i], ...arguments[1][i]];
-   // }
-   // for (let i = 0; i < arguments[2].length; i++) {
-   //    flat[flat.length] = [...arguments[2][i], ...arguments[3][i]];
-   // }
-   // console.log(flat);
    let flat = startQuad.map((row, index) => row.concat(endQuad[index]));
-   // console.log(flat);
    return flat;
 }
 
 function loopOverCirclesAndReturnWinner(flatCircles) {
-   console.log(flatCircles);
    let winner = null;
    let counter = 0;
    for (let i = 0; i < flatCircles.length; i++) {
@@ -397,7 +338,6 @@ function loopOverCirclesAndReturnWinner(flatCircles) {
             if (j > 0) break; // this for early break if second and third elements are no match
          }
          if (counter === 4) {
-            // console.log(j);
             winner = { player: row[j], index: i, side: j === 3 ? 'start' : 'end' };
             break;
          }
