@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import './App4.css';
+import './App.css';
 import curved2 from './assets/undraw_handcrafts_curved_arrow.svg';
 const BLACK = 'black';
 const RED = 'red';
