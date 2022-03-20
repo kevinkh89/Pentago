@@ -2,7 +2,9 @@ import { FILLING } from './constants';
 
 function Status({ player, phase, winner }) {
    let winnerText = () => (
-      <h1>{winner && <span style={{ color: 'gold' }}> {winner.player} WON</span>}</h1>
+      <>
+         <h1>{winner && <span style={{ color: 'gold' }}> {winner.player} WON</span>}</h1>
+      </>
    );
 
    let statusText = () => (

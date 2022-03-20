@@ -4,6 +4,7 @@ import { BLACK, FILLING, RED, ROTATION, CLOCK, COUNTER } from './constants';
 import { rotateQuad } from './helpers';
 
 function Quad({ quad, setQuad, player, phase, disabled, setPhase, setPlayer }) {
+   console.log('quad');
    const [rotation, setRotation] = useState();
    const [quadClass, setQuadClass] = useState('quad');
    const handleCircle = (rowIndex, circleIndex) => {
@@ -65,6 +66,5 @@ function Quad({ quad, setQuad, player, phase, disabled, setPhase, setPlayer }) {
       </div>
    );
 }
-<ControlledInput ref={input1} handleUpdate={val => (input1.current = val)} />;
 
 export default Quad;

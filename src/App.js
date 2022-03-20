@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import './App.css';
-import { BLACK, FILLING } from './constants';
-import { makeBoard, winnerCalculation, useIsMounted } from './helpers';
+import { BLACK, FILLING, RED } from './constants';
+import { makeBoard, winnerCalculation, useIsMounted, useScore } from './helpers';
+import Instructions from './Instructions';
 import Quad from './Quad';
+import Score from './Score';
 import Status from './Status';
 import WinnerHighlight from './WiinerHighlight';
 
@@ -16,15 +18,28 @@ const Board = () => {
    const [quad3, setQuad3] = useState(board[0]);
    const [quad4, setQuad4] = useState(board[0]);
    const mount = useIsMounted();
+   // const score = useRef({ [BLACK]: 0, [RED]: 0 });
+   const { score, addScore, resetScore } = useScore();
+   console.log(score, 'app');
    useEffect(() => {
       if (mount) return;
       let checkWinner = winnerCalculation(quad1, quad2, quad3, quad4);
       if (checkWinner) {
          setWinner(checkWinner);
+         // let blackScore = score.current[BLACK];
+         // let redScore = score.current[RED];
+         // score.current = {
+         //    [BLACK]: player === BLACK ? blackScore + 1 : blackScore,
+         //    [RED]: player === RED ? redScore + 1 : redScore,
+         // };
+         addScore(checkWinner.player);
+         // res
       }
    }, [quad1, quad2, quad3, quad4, mount]);
    const [player, setPlayer] = useState(BLACK);
    const [phase, setPhase] = useState(FILLING);
+
+   // const callbackedReset=useCallback(resetScore,[])
    return (
       <>
          <div className="desc">
@@ -41,8 +56,11 @@ const Board = () => {
                   setWinner(false);
                }}
             >
-               Reset
+               Restart
             </button>
+
+            <Score score={score} resetScore={resetScore} />
+            <Instructions />
          </div>
 
          <div className="board">
@@ -95,9 +113,11 @@ const Board = () => {
 
 const Game = () => {
    return (
+      // <div>
       <div className="game">
          <Board />
       </div>
+      // </div>
    );
 };
 

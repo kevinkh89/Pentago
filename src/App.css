@@ -79,6 +79,7 @@ svg {
    justify-content: space-evenly;
    min-width: 87vw;
    margin: 0 auto;
+   padding-top: 8rem;
 }
 
 .board {
@@ -182,16 +183,40 @@ svg {
 }
 
 .cta {
+   font-family: 'Nunito', -apple-system, cursive, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+      'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+   font-size: 1.2rem;
+   font-weight: 600;
+   padding: 1.8rem 4rem;
+   text-transform: uppercase;
+   cursor: pointer;
    border: none;
-   background-color: blue;
+   background-color: #bffcfb;
    margin-top: 2rem;
    border-radius: 10px;
-   color: #f2f2f2;
-   cursor: 'pointer';
-   padding: 2rem 4rem;
+   box-shadow: 0px 4px 0px 0px #002726;
+}
+.cta:hover {
+   background-color: #71e6e4;
+}
+
+.instruction {
+   font-size: 1.5rem;
+   text-align: left;
+   color: rgb(255, 255, 255);
+   padding: 2.5rem;
+   /* width: 53%; */
+   width: 100%;
 }
 
 @media screen and (max-width: 600px) {
+   .instruction {
+      font-size: 1.2rem;
+      width: 100%;
+      margin-top: 5rem;
+
+      /* padding: ; */
+   }
    .circle {
       width: 3rem;
       height: 3rem;
@@ -291,5 +316,6 @@ svg {
    .desc {
       margin: 0 auto;
       margin-bottom: 4rem;
+      min-width: 60%;
    }
 }

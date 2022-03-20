@@ -1,17 +1,19 @@
 #root {
-   height: 100vh;
+   /* height: 100vh; */
    display: flex;
    align-items: center;
 }
 
 body {
-   font-family: 'Permanent Marker', -apple-system, cursive, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+   font-family: 'Nunito', -apple-system, cursive, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+      'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
    /* font-family: cursive; */
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
    background-image: url('./assets/blob-haikei\ \(1\).svg');
    background-size: cover;
+   /* box-sizing: border-box
+   ; */
 }
 *,
 *::after,
