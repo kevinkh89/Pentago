@@ -205,24 +205,24 @@ svg {
    }
 
    .cross-left.end {
-      transform-origin: calc(100% - 5.5rem) 2.5rem;
-      transform: rotate(-45deg) translateX(-3.5rem);
+      transform-origin: calc(100% - 2rem) 2rem;
+      transform: rotate(-45deg) translateX(-0.5rem);
    }
    .cross-left.start {
-      transform-origin: calc(100% - 5.5rem) 2.5rem;
-      transform: rotate(-45deg) translateX(-8.5rem);
+      transform-origin: calc(100% - 2rem) 2rem;
+      transform: rotate(-45deg) translateX(-5.5rem);
    }
    .cross-left,
    .cross-right {
       width: 34rem;
    }
    .cross-right.start {
-      transform: rotate(45deg) translateX(3.5rem);
-      transform-origin: 5rem 3rem;
+      transform: rotate(45deg) translateX(0.5rem);
+      transform-origin: 2rem 2rem;
    }
    .cross-right.end {
-      transform: rotate(45deg) translateX(7.5rem);
-      transform-origin: 5rem 3rem;
+      transform: rotate(45deg) translateX(5.5rem);
+      transform-origin: 2rem 2rem;
    }
 
    .game {
@@ -241,6 +241,45 @@ svg {
    }
    .vertical.start {
       top: 4.7rem;
+   }
+   .vertical {
+      transform-origin: 2rem 2rem;
+   }
+   .row--1 > .quad-container:first-child > .counter {
+      left: -4.5rem;
+      /* transform: rotateX(180deg) rotate(-90deg); */
+   }
+   .row--1 > .quad-container:first-child > .clock {
+      top: -4.5rem;
+   }
+   .row--1 > .quad-container:nth-child(2) > .counter {
+      /* transform: rotateY(180deg); */
+      /* right: 0; */
+      top: -4.5rem;
+   }
+   .row--1 > .quad-container:nth-child(2) > .clock {
+      right: -4.5rem;
+      /* transform: rotate(90deg); */
+   }
+   .row--2 > .quad-container:first-child > .counter {
+      /* left: 0rem; */
+      bottom: -4.5rem;
+      /* transform: rotateX(-180deg); */
+   }
+   .row--2 > .quad-container:first-child > .clock {
+      /* bottom: 0rem; */
+      left: -4.5rem;
+      /* transform: rotate(-90deg); */
+   }
+   .row--2 > .quad-container:nth-child(2) > .counter {
+      right: -4.5rem;
+      /* bottom: 0; */
+      /* transform: rotate(90deg) rotateY(180deg); */
+   }
+   .row--2 > .quad-container:nth-child(2) > .clock {
+      bottom: -4.5rem;
+      /* right: 0; */
+      /* transform: rotateX(180deg) rotateY(180deg); */
    }
 }
 
