@@ -46,8 +46,13 @@
 .cross-left.end {
    transform: rotate(-45deg) translateX(-11.5rem);
 }
-
+.vertical.start {
+   top: 4.7rem;
+}
 @media screen and (max-width: 600px) {
+   .vertical {
+      transform-origin: 2rem 2rem;
+   }
    .winner-box {
       width: 24rem;
       height: 4rem;
@@ -55,11 +60,11 @@
 
    .cross-left.end {
       transform-origin: calc(100% - 2rem) 2rem;
-      transform: rotate(-45deg) translateX(-0.5rem);
+      transform: rotate(-45deg) translateX(-5.5rem);
    }
    .cross-left.start {
+      transform: rotate(-45deg) translateX(-0.5rem);
       transform-origin: calc(100% - 2rem) 2rem;
-      transform: rotate(-45deg) translateX(-5.5rem);
    }
    .cross-left,
    .cross-right {
@@ -71,6 +76,9 @@
    }
    .cross-right.end {
       transform: rotate(45deg) translateX(5.5rem);
+      transform-origin: 2rem 2rem;
+   }
+   .vertical {
       transform-origin: 2rem 2rem;
    }
 }

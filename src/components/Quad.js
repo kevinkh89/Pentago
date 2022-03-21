@@ -5,7 +5,6 @@ import { BLACK, FILLING, RED, ROTATION, CLOCK, COUNTER } from '../utils/constant
 import { rotateQuad } from '../utils/helpers';
 
 function Quad({ quad, setQuad, player, phase, disabled, setPhase, setPlayer }) {
-   // console.log('quad');
    const [rotation, setRotation] = useState();
    const [quadClass, setQuadClass] = useState('quad');
    const handleCircle = (rowIndex, circleIndex) => {

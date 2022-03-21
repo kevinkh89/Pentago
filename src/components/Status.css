@@ -1,8 +1,6 @@
 .status {
    color: #aed4eb;
-   /* font-size: 1.8rem; */
    flex-basis: 30%;
-   /* text-align: center; */
 }
 .status h1 {
    margin-bottom: 1rem;

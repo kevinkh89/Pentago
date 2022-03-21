@@ -104,16 +104,10 @@ img {
    img {
       width: 3rem;
    }
-   /* .row--1 > .quad-container:first-child > .counter {
-      left: -4.5rem;
-   } */
    .row--1 > .quad-container:first-child > .clock,
    .row--1 > .quad-container:nth-child(2) > .counter {
       top: -4.5rem;
    }
-   /* .row--1 > .quad-container:nth-child(2) > .counter {
-      top: -4.5rem;
-   } */
    .row--1 > .quad-container:nth-child(2) > .clock,
    .row--2 > .quad-container:nth-child(2) > .counter {
       right: -4.5rem;
@@ -126,10 +120,4 @@ img {
    .row--1 > .quad-container:first-child > .counter {
       left: -4.5rem;
    }
-   /* .row--2 > .quad-container:nth-child(2) > .counter {
-      right: -4.5rem;
-   } */
-   /* .row--2 > .quad-container:nth-child(2) > .clock {
-      bottom: -4.5rem;
-   } */
 }

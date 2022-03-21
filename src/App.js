@@ -19,29 +19,19 @@ const Board = () => {
    const [quad4, setQuad4] = useState(board[0]);
    const mount = useIsMounted();
    const { score, addScore, resetScore } = useScore();
-   // console.log(score, 'app');
    useEffect(() => {
       if (mount) return;
       let checkWinner = winnerCalculation(quad1, quad2, quad3, quad4);
       if (checkWinner) {
          setWinner(checkWinner);
-         // let blackScore = score.current[BLACK];
-         // let redScore = score.current[RED];
-         // score.current = {
-         //    [BLACK]: player === BLACK ? blackScore + 1 : blackScore,
-         //    [RED]: player === RED ? redScore + 1 : redScore,
-         // };
          addScore(checkWinner.player);
-         // res
       }
    }, [quad1, quad2, quad3, quad4, mount, addScore]);
    const [player, setPlayer] = useState(BLACK);
    const [phase, setPhase] = useState(FILLING);
 
-   // const callbackedReset=useCallback(resetScore,[])
    return (
-      <>
-         {/* <div className="desc"> */}
+      <div className="game">
          <Status phase={phase} player={player} winner={winner}>
             <button
                className="cta"
@@ -58,9 +48,6 @@ const Board = () => {
                Restart
             </button>
          </Status>
-         {/* <Score score={score} resetScore={resetScore} />
-         <Instructions /> */}
-         {/* </div> */}
          <div className="board">
             {winner && <WinnerHighlight winner={winner} />}
 
@@ -107,22 +94,23 @@ const Board = () => {
          </div>
          <Score score={score} resetScore={resetScore} />
          <Instructions />
-      </>
-   );
-};
-
-const Game = () => {
-   return (
-      // <div>
-      <div className="game">
-         <Board />
       </div>
-      // </div>
    );
 };
-
+function test() {
+   const limit = 15;
+   let count = 1;
+   return Array(limit)
+      .fill(0)
+      .reduce((acc, _, index) => {
+         const spaces = ' '.repeat(Math.abs(limit - count) / 2);
+         const stars = '*'.repeat(count) + '\n';
+         index >= Math.floor(limit / 2) ? (count -= 2) : (count += 2);
+         return `${acc}${spaces}${stars}`;
+      }, '\n');
+}
 //====================
 
 //========================
 
-export default Game;
+export default Board;

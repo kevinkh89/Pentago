@@ -1,12 +1,6 @@
 .game {
-   /* display: flex; */
-   /* justify-content: space-evenly; */
-   /* min-width: 87vw; */
    font-size: 1.8rem;
    text-align: center;
-   /* margin: 0 auto; */
-   /* padding-top: 8rem; */
-
    display: grid;
    grid-template-columns: 1fr 1fr;
    padding: 8rem 3rem;
@@ -16,6 +10,8 @@
 .board {
    position: relative;
    grid-row: span 3;
+   margin: 0 auto;
+   text-align: initial;
 }
 
 .cta {
@@ -40,22 +36,17 @@
    font-size: 1.5rem;
    text-align: left;
    color: rgb(255, 255, 255);
-   /* padding: 2.5rem; */
-   /* width: 53%; */
    width: 100%;
    padding: 0 2rem;
+   margin-top: 2rem;
 }
 
 @media screen and (max-width: 600px) {
    .instruction {
       font-size: 1.2rem;
       width: 100%;
-      /* margin-top: 5rem; */
-
-      /* padding: ; */
    }
    .game {
-      /* flex-direction: column; */
       grid-template-columns: 1fr;
    }
    .desc {
@@ -67,11 +58,8 @@
       padding: 1rem 2rem;
    }
 
-   .vertical.start {
-      top: 4.7rem;
-   }
-   .vertical {
-      transform-origin: 2rem 2rem;
+   .board {
+      margin: 4rem auto;
    }
 }
 
