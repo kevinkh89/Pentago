@@ -1,6 +1,5 @@
-import React from 'react';
-import { BLACK, RED } from './constants';
-import { useScore } from './helpers';
+import { memo } from 'react';
+import { BLACK, RED } from '../utils/constants';
 import './score.css';
 function Score({ score, resetScore }) {
    //    const { resetScore, score } = useScore();
@@ -18,7 +17,6 @@ function Score({ score, resetScore }) {
          <button
             className="cta"
             onClick={() => {
-               console.log('reset');
                resetScore({ [BLACK]: 0, [RED]: 0 });
             }}
          >
@@ -28,6 +26,6 @@ function Score({ score, resetScore }) {
    );
 }
 
-const MemoizedScore = React.memo(Score);
+const MemoizedScore = memo(Score);
 
 export default MemoizedScore;

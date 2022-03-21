@@ -1,14 +1,17 @@
 .score {
+   justify-self: center;
+
    display: grid;
    justify-items: center;
    grid-template-columns: 1fr 1fr;
-   width: 100%;
+   width: 60%;
    border: 1px solid rgba(255, 255, 255, 0.1);
-   margin-top: 3rem;
+   /* margin-top: 3rem; */
    padding: 2rem;
    background-color: rgba(255, 255, 255, 0.1);
    /* background-color: rgba(0, 0, 0, 0.2); */
    border-radius: 5px;
+   /* text-align: center; */
 }
 .player {
    /* border-bottom: 1px solid rgba(255, 255, 255, 0.7); */
@@ -30,6 +33,6 @@
 
 @media screen and (max-width: 600px) {
    .score {
-      margin-bottom: 2rem;
+      /* margin-bottom: 2rem; */
    }
 }

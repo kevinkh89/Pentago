@@ -1,3 +1,5 @@
+// import React from 'react';
+import './WinnerHighlight.css';
 function WinnerHighlight({ winner }) {
    let media = window.matchMedia('(max-width:600px)');
    let values = {

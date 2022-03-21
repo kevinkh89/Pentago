@@ -1,26 +1,25 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+//=======
 import './App.css';
-import { BLACK, FILLING, RED } from './constants';
-import { makeBoard, winnerCalculation, useIsMounted, useScore } from './helpers';
-import Instructions from './Instructions';
-import Quad from './Quad';
-import Score from './Score';
-import Status from './Status';
-import WinnerHighlight from './WiinerHighlight';
-
-//=================
+import { BLACK, FILLING } from './utils/constants';
+import { makeBoard, winnerCalculation } from './utils/helpers';
+import Instructions from './components/Instructions';
+import Quad from './components/Quad';
+import Score from './components/Score';
+import Status from './components/Status';
+import WinnerHighlight from './components/WinnerHighlight';
+import { useIsMounted, useScore } from './utils/hooks';
 
 const Board = () => {
-   const board = useMemo(() => makeBoard(), [makeBoard]);
+   const board = useMemo(() => makeBoard(), []);
    const [winner, setWinner] = useState(false);
    const [quad1, setQuad1] = useState(board[0]);
    const [quad2, setQuad2] = useState(board[0]);
    const [quad3, setQuad3] = useState(board[0]);
    const [quad4, setQuad4] = useState(board[0]);
    const mount = useIsMounted();
-   // const score = useRef({ [BLACK]: 0, [RED]: 0 });
    const { score, addScore, resetScore } = useScore();
-   console.log(score, 'app');
+   // console.log(score, 'app');
    useEffect(() => {
       if (mount) return;
       let checkWinner = winnerCalculation(quad1, quad2, quad3, quad4);
@@ -35,15 +34,15 @@ const Board = () => {
          addScore(checkWinner.player);
          // res
       }
-   }, [quad1, quad2, quad3, quad4, mount]);
+   }, [quad1, quad2, quad3, quad4, mount, addScore]);
    const [player, setPlayer] = useState(BLACK);
    const [phase, setPhase] = useState(FILLING);
 
    // const callbackedReset=useCallback(resetScore,[])
    return (
       <>
-         <div className="desc">
-            <Status phase={phase} player={player} winner={winner} />
+         {/* <div className="desc"> */}
+         <Status phase={phase} player={player} winner={winner}>
             <button
                className="cta"
                onClick={() => {
@@ -58,11 +57,10 @@ const Board = () => {
             >
                Restart
             </button>
-
-            <Score score={score} resetScore={resetScore} />
-            <Instructions />
-         </div>
-
+         </Status>
+         {/* <Score score={score} resetScore={resetScore} />
+         <Instructions /> */}
+         {/* </div> */}
          <div className="board">
             {winner && <WinnerHighlight winner={winner} />}
 
@@ -107,6 +105,8 @@ const Board = () => {
                ></Quad>
             </div>
          </div>
+         <Score score={score} resetScore={resetScore} />
+         <Instructions />
       </>
    );
 };

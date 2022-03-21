@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import curved2 from './assets/undraw_handcrafts_curved_arrow.svg';
-import { BLACK, FILLING, RED, ROTATION, CLOCK, COUNTER } from './constants';
-import { rotateQuad } from './helpers';
+import { useState } from 'react';
+import './Quad.css';
+import curved2 from '../assets/undraw_handcrafts_curved_arrow.svg';
+import { BLACK, FILLING, RED, ROTATION, CLOCK, COUNTER } from '../utils/constants';
+import { rotateQuad } from '../utils/helpers';
 
 function Quad({ quad, setQuad, player, phase, disabled, setPhase, setPlayer }) {
-   console.log('quad');
+   // console.log('quad');
    const [rotation, setRotation] = useState();
    const [quadClass, setQuadClass] = useState('quad');
    const handleCircle = (rowIndex, circleIndex) => {

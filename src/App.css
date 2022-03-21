@@ -1,185 +1,21 @@
-.circle {
-   width: 6rem;
-   height: 6rem;
-   border-radius: 100%;
-   cursor: pointer;
-   box-shadow: 0px 0px 5px 0.4px rgb(0 0 0);
-   background-color: #d3fbd8;
-}
-
-.row {
-   display: flex;
-   justify-content: center;
-}
-
-.row--1 > .quad-container:first-child > .counter {
-   left: -6rem;
-   transform: rotateX(180deg) rotate(-90deg);
-}
-.row--1 > .quad-container:first-child > .clock {
-   top: -6rem;
-}
-.row--1 > .quad-container:nth-child(2) > .counter {
-   transform: rotateY(180deg);
-   right: 0;
-   top: -6rem;
-}
-.row--1 > .quad-container:nth-child(2) > .clock {
-   right: -6rem;
-   transform: rotate(90deg);
-}
-.row--2 > .quad-container:first-child > .counter {
-   left: 0rem;
-   bottom: -6rem;
-   transform: rotateX(-180deg);
-}
-.row--2 > .quad-container:first-child > .clock {
-   bottom: 0rem;
-   left: -6rem;
-   transform: rotate(-90deg);
-}
-.row--2 > .quad-container:nth-child(2) > .counter {
-   right: -6rem;
-   bottom: 0;
-   transform: rotate(90deg) rotateY(180deg);
-}
-.row--2 > .quad-container:nth-child(2) > .clock {
-   bottom: -6rem;
-   right: 0;
-   transform: rotateX(180deg) rotateY(180deg);
-}
-
-.black {
-   box-shadow: 0px 0px 10px 2.4px #aed5eb, inset -1px -1px 21.2px 13.8px black;
-}
-.red {
-   box-shadow: 0px 0px 10px 2.4px #d98ea1, inset -2px -1px 21.2px 13.8px #d92525;
-}
-img {
-   position: absolute;
-   width: 4rem;
-   cursor: pointer;
-}
-.fade-in {
-   opacity: 1;
-   transition: all 300ms ease-in;
-}
-.fade-out {
-   opacity: 0;
-   visibility: hidden;
-   transition: all 300ms ease-out;
-}
-svg {
-   position: absolute;
-   width: 4rem;
-   height: 4rem;
-}
 .game {
-   display: flex;
-   justify-content: space-evenly;
-   min-width: 87vw;
-   margin: 0 auto;
-   padding-top: 8rem;
+   /* display: flex; */
+   /* justify-content: space-evenly; */
+   /* min-width: 87vw; */
+   font-size: 1.8rem;
+   text-align: center;
+   /* margin: 0 auto; */
+   /* padding-top: 8rem; */
+
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   padding: 8rem 3rem;
+   row-gap: 2rem;
 }
 
 .board {
    position: relative;
-}
-
-.quad-container {
-   position: relative;
-   padding: 0.75rem;
-   background-color: #591c21;
-   border-radius: 10px;
-   border: 1px solid #200508;
-}
-
-.quad {
-   padding: 2rem;
-   border-radius: 10px;
-   background-color: #8c1f28;
-   box-shadow: 0 0 3px 1px rgb(0, 0, 0);
-}
-
-.quad > .row:not(:last-child) {
-   padding-bottom: 1rem;
-}
-
-.row .circle:not(:last-child) {
-   margin-right: 1rem;
-}
-
-.winner-box {
-   position: absolute;
-   width: 41.7rem;
-   height: 7rem;
-   border-radius: 100px;
-   border-color: gold;
-   border-style: solid;
-   border-width: 3px;
-   z-index: 1000;
-}
-
-.horizontal.end {
-   right: 1rem;
-}
-.horizontal.start {
-   left: 1rem;
-}
-.vertical {
-   transform: rotate(90deg);
-   transform-origin: 3.5rem 3.5rem;
-}
-.vertical.end {
-   top: 1rem;
-}
-.vertical.start {
-   top: 8.7rem;
-}
-.cross-right {
-   transform-origin: 3.5rem 3.5rem;
-   width: 57rem;
-}
-.cross-right.start {
-   transform: rotate(45deg) translateX(1.5rem);
-}
-.cross-right.end {
-   transform: rotate(45deg) translateX(11.5rem);
-}
-.cross-left {
-   transform-origin: calc(100% - 3.5rem) 3.5rem;
-   width: 57rem;
-   right: 0;
-}
-.cross-left.start {
-   transform: rotate(-45deg) translateX(-11.5rem);
-}
-.cross-left.end {
-   transform: rotate(-45deg) translateX(-1.5rem);
-}
-
-.desc {
-   color: #aed4eb;
-   font-size: 1.8rem;
-   flex-basis: 30%;
-   text-align: center;
-}
-.desc h1 {
-   margin-bottom: 1rem;
-   text-transform: uppercase;
-}
-.desc .red {
-   color: #b1111b;
-   box-shadow: none;
-}
-.desc .black {
-   color: rgb(0, 0, 0);
-   box-shadow: none;
-}
-.score-board {
-   width: 100%;
-   height: 20%;
-   border-radius: 20px;
+   grid-row: span 3;
 }
 
 .cta {
@@ -204,54 +40,23 @@ svg {
    font-size: 1.5rem;
    text-align: left;
    color: rgb(255, 255, 255);
-   padding: 2.5rem;
+   /* padding: 2.5rem; */
    /* width: 53%; */
    width: 100%;
+   padding: 0 2rem;
 }
 
 @media screen and (max-width: 600px) {
    .instruction {
       font-size: 1.2rem;
       width: 100%;
-      margin-top: 5rem;
+      /* margin-top: 5rem; */
 
       /* padding: ; */
    }
-   .circle {
-      width: 3rem;
-      height: 3rem;
-   }
-   .quad {
-      padding: 1rem;
-   }
-   .winner-box {
-      width: 24rem;
-      height: 4rem;
-   }
-
-   .cross-left.end {
-      transform-origin: calc(100% - 2rem) 2rem;
-      transform: rotate(-45deg) translateX(-0.5rem);
-   }
-   .cross-left.start {
-      transform-origin: calc(100% - 2rem) 2rem;
-      transform: rotate(-45deg) translateX(-5.5rem);
-   }
-   .cross-left,
-   .cross-right {
-      width: 34rem;
-   }
-   .cross-right.start {
-      transform: rotate(45deg) translateX(0.5rem);
-      transform-origin: 2rem 2rem;
-   }
-   .cross-right.end {
-      transform: rotate(45deg) translateX(5.5rem);
-      transform-origin: 2rem 2rem;
-   }
-
    .game {
-      flex-direction: column;
+      /* flex-direction: column; */
+      grid-template-columns: 1fr;
    }
    .desc {
       font-size: 1.4rem;
@@ -261,50 +66,12 @@ svg {
    .cta {
       padding: 1rem 2rem;
    }
-   img {
-      width: 3rem;
-   }
+
    .vertical.start {
       top: 4.7rem;
    }
    .vertical {
       transform-origin: 2rem 2rem;
-   }
-   .row--1 > .quad-container:first-child > .counter {
-      left: -4.5rem;
-      /* transform: rotateX(180deg) rotate(-90deg); */
-   }
-   .row--1 > .quad-container:first-child > .clock {
-      top: -4.5rem;
-   }
-   .row--1 > .quad-container:nth-child(2) > .counter {
-      /* transform: rotateY(180deg); */
-      /* right: 0; */
-      top: -4.5rem;
-   }
-   .row--1 > .quad-container:nth-child(2) > .clock {
-      right: -4.5rem;
-      /* transform: rotate(90deg); */
-   }
-   .row--2 > .quad-container:first-child > .counter {
-      /* left: 0rem; */
-      bottom: -4.5rem;
-      /* transform: rotateX(-180deg); */
-   }
-   .row--2 > .quad-container:first-child > .clock {
-      /* bottom: 0rem; */
-      left: -4.5rem;
-      /* transform: rotate(-90deg); */
-   }
-   .row--2 > .quad-container:nth-child(2) > .counter {
-      right: -4.5rem;
-      /* bottom: 0; */
-      /* transform: rotate(90deg) rotateY(180deg); */
-   }
-   .row--2 > .quad-container:nth-child(2) > .clock {
-      bottom: -4.5rem;
-      /* right: 0; */
-      /* transform: rotateX(180deg) rotateY(180deg); */
    }
 }
 
